@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
                     ]
 
     s.require_path  = "lib"
-    s.has_rdoc      = true
+    # s.has_rdoc      = true
     s.test_file     = "test/test_pdf.rb"
     s.license       = "LGPL-3.0+"
 
