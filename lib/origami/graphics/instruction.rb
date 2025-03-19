@@ -28,11 +28,11 @@ module Origami
         attr_reader :operator
         attr_accessor :operands
 
-        @insns = Hash.new(operands: [], render: lambda{})
+        @insns = Hash.new({ operands: [], render: -> {} })
 
         def initialize(operator, *operands)
             @operator = operator
-            @operands = operands.map!{|arg| arg.is_a?(Origami::Object) ? arg.value : arg}
+            @operands = operands.map! {|arg| arg.is_a?(Origami::Object) ? arg.value : arg}
 
             if self.class.has_op?(operator)
                 opdef = self.class.get_operands(operator)
@@ -51,14 +51,14 @@ module Origami
         end
 
         def to_s
-            "#{operands.map{|op| op.to_o.to_s}.join(' ')}#{' ' unless operands.empty?}#{operator}\n"
+            "#{operands.map {|op| op.to_o.to_s}.join(' ')}#{' ' unless operands.empty?}#{operator}\n"
         end
 
         class << self
             def insn(operator, *operands, &render_proc)
                 @insns[operator] = {}
                 @insns[operator][:operands] = operands
-                @insns[operator][:render] = render_proc || lambda{}
+                @insns[operator][:render] = render_proc || -> {}
             end
 
             def has_op?(operator)
